@@ -56,11 +56,47 @@ instance → each student's notebook  (everyone has their OWN)
 
 ## 6. 🔒 Access Modifiers
 
-| Modifier | Accessible From |
-|---|---|
-| `public` | Everywhere |
-| `private` | Only inside the same class |
-| *(none)* | Only inside the same file |
+| Modifier | Your Words | Accessible From |
+|---|---|---|
+| `private` | Class scope | Only inside that class |
+| *(none)* | File scope | Same file / same package only |
+| `protected` | Family scope | Class + child classes |
+| `public` | Global scope | Everywhere |
+
+### `private` vs `protected`:
+
+```
+private   → locked to THIS class only
+              even child classes CANNOT access it ❌
+
+protected → open to THIS class + child classes + same package
+              children CAN access it ✅
+```
+
+### Example:
+
+```java
+public class BankAccount {
+    private double balance;       // class scope  — only BankAccount
+    protected String ownerName;   // family scope — child classes too
+    public void deposit() { }     // global scope — everyone
+}
+
+// In same file:
+class Main {
+    void test() {
+        BankAccount a = new BankAccount();
+        a.balance = 100;      // ❌ private  — class scope, blocked!
+        a.ownerName = "Ali";  // ✅ protected — same file, allowed!
+        a.deposit(100);       // ✅ public    — global, allowed!
+    }
+}
+```
+
+### Rule of Thumb:
+- Use `private` by default
+- Only upgrade to `protected` when a **child class needs it**
+- `protected` is mainly used with **Inheritance** (parent → child)
 
 ---
 
